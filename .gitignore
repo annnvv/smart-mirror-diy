@@ -1,3 +1,6 @@
+# auth folder
+_auth/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
