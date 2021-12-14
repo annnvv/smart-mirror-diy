@@ -1,6 +1,10 @@
 # auth folder
 _auth/
 
+# jupyter notebooks
+test_notebooks/
+*.ipynb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
