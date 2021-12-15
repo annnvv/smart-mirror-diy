@@ -1,10 +1,6 @@
-from tkinter import *
 import requests
 import json
-from utils import text, read_yaml
-
-
-config = read_yaml.read_yaml("_auth/config.yaml")
+from datetime import datetime
 
 # maps open weather icons to weather conditions
 # https://openweathermap.org/weather-conditions
@@ -33,64 +29,46 @@ icon_lookup = {
 }
 
 
-class Weather(Frame):
-    def __init__(self, *args, **kwargs):
-        Frame.__init__(self, bg=text.background)
-        self.temperature = ""
-        # self.forecast = ""
-        # self.location = ""
-        # self.currently = ""
-        # self.icon = ""
-        self.degreeFrm = Frame(self, bg=text.background)
-        self.degreeFrm.pack(side=TOP, anchor=E)
-        self.temperatureLbl = Label(
-            self.degreeFrm,
-            font=(text.fontH, text.xlarge_text_size),
-            fg=text.foreground,
-            bg=text.background,
-        )
-        self.temperatureLbl.pack(side=RIGHT, anchor=N)
-        # self.iconLbl = Label(self.degreeFrm, bg=text.background)
-        # self.iconLbl.pack(side=RIGHT, anchor=N, padx=20)
-        # self.currentlyLbl = Label(
-        #     self,
-        #     font=(text.fontH, text.medium_text_size),
-        #     fg=text.foreground,
-        #     bg=text.background,
-        # )
-        # self.currentlyLbl.pack(side=TOP, anchor=E)
-        # self.forecastLbl = Label(
-        #     self,
-        #     font=(text.fontH, text.small_text_size),
-        #     fg=text.foreground,
-        #     bg=text.background,
-        # )
-        # self.forecastLbl.pack(side=TOP, anchor=E)
-        # self.locationLbl = Label(
-        #     self,
-        #     font=(text.fontH, text.small_text_size),
-        #     fg=text.foreground,
-        #     bg=text.background,
-        # )
-        # self.locationLbl.pack(side=TOP, anchor=E)
-        self.get_weather()
+class Weather:
+    def __init__(self):
+        self.temp = ""
+        self.feels_like = ""
+        self.temp_max = ""
+        self.temp_min = ""
+        self.weather_desc = ""
+        self.sunrise = ""
+        self.sunset = ""
 
-    def get_weather(self, zip_code=None, weather_api_key=None):
-        zip_code = config["weather"]["zipcode"]
-        weather_api_key = config["weather"]["api_key"]
+    def get_weather(self, zip_code: str, weather_api_key: str):
+        """
+        Method to query the openweathermap API to get current temperature, feels like temperature,
+        daily min temperature, daily max temperature, weather conditions, sunrise, and sunset
+        """
 
         weather_req_url = str(
             f"https://api.openweathermap.org/data/2.5/weather?zip={zip_code}&appid={weather_api_key}&units=imperial"
         )
-        r = requests.get(weather_req_url)
-        weather_obj = json.loads(r.text)
 
-        degree_sign = "\N{DEGREE SIGN}"
+        try:
+            r = requests.get(weather_req_url)
+            weather_obj = json.loads(r.text)
 
-        temperature2 = str(round(weather_obj["main"]["temp"])) + degree_sign
-        # feelslike2 = str(round(weather_obj["main"]["feels_like"])) + degree_sign + "F"
-        # temp_max = str(round(weather_obj["main"]["temp_max"])) + degree_sign + "F"
-        # temp_min = str(round(weather_obj["main"]["temp_min"])) + degree_sign + "F"
+        except requests.exceptions.RequestException as e:
+            print("Raise error:", e)
+
+        # degree_sign = "\N{DEGREE SIGN}"
+
+        self.temp = str(round(weather_obj["main"]["temp"]))
+        self.feels_like = str(round(weather_obj["main"]["feels_like"]))
+        self.temp_max = str(round(weather_obj["main"]["temp_max"]))
+        self.temp_min = str(round(weather_obj["main"]["temp_min"]))
+        self.weather_desc = weather_obj["weather"][0]["main"]
+        self.sunrise = datetime.fromtimestamp(weather_obj["sys"]["sunrise"]).strftime(
+            "%H:%M"
+        )
+        self.sunset = datetime.fromtimestamp(weather_obj["sys"]["sunset"]).strftime(
+            "%H:%M"
+        )
 
         #         icon_id = weather_obj['currently']['icon']
         #         icon2 = None
@@ -112,25 +90,4 @@ class Weather(Frame):
         #             # remove image
         #             self.iconLbl.config(image='')
 
-        #         if self.currently != currently2:
-        #             self.currently = currently2
-        #             self.currentlyLbl.config(text=currently2)
-        #         if self.forecast != forecast2:
-        #             self.forecast = forecast2
-        #             self.forecastLbl.config(text=forecast2)
-        if self.temperature != temperature2:
-            self.temperature = temperature2
-            self.temperatureLbl.config(text=temperature2)
-
-        #         if self.location != location2:
-        #             if location2 == ', ':
-        #                 self.location = 'Cannot Pinpoint Location'
-        #                 self.locationLbl.config(text='Cannot Pinpoint Location')
-        #             else:
-        #                 self.location = location2
-        #                 self.locationLbl.config(text=location2)
-        #     except Exception as e:
-        #         traceback.print_exc()
-        #         print 'Error: %s. Cannot get weather.' % e
-
-        self.after(600000 * 3, self.get_weather)
+        # self.after(600000 * 3, self.get_weather)
