@@ -1,9 +1,11 @@
-xlarge_text_size = 94
-large_text_size = 48
-medium_text_size = 28
-small_text_size = 18
+class displayOptions:
+    def __init__(self) -> None:
+        self.xlarge_text_size = 94
+        self.large_text_size = 48
+        self.medium_text_size = 28
+        self.small_text_size = 18
 
-foreground = "white"
-background = "black"
+        self.bg_color = "black"
+        self.text_color = "white"
 
-fontH = "Helvetica"
+        self.font_name = "Helvetica"
