@@ -32,6 +32,7 @@ class Wmata:
             print("Error:", e)
 
         ## Parse data from request
+        ##TODO: Figure out a different data structure for this data, maybe dictionary?
         train_info = []
         for i in range(len(train_obj["Trains"])):
             train = (
