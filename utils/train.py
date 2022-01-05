@@ -16,6 +16,7 @@ class Wmata:
             A list of strings that contain information about the Line, Destination, and Minutes to next train
         """
         ## Make GET request
+        ##TODO: limit requests only during when the train is running
         wmata_req_url = str(
             f"https://api.wmata.com/StationPrediction.svc/json/GetPrediction/{station_code}"
         )
