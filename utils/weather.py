@@ -43,6 +43,7 @@ class Weather(configData):
         self.sunset = datetime.fromtimestamp(weather_obj["sys"]["sunset"]).strftime(
             "%H:%M"
         )
-        return None
+        # return None
 
-    # self.after(600000 * 3, self.get_weather)
+        self.after(600000 * 1.5, self.get_weather)
+        ## get weather every 15 minutes (API limit every 10 mintues)
