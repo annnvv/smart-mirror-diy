@@ -1,27 +1,25 @@
 import requests
 import json
+from utils.read_yaml import configData
 
 
-class Wmata:
-    # def __init__(self):
-    #     pass
-
-    def get_next_train(self, station_code: str, wmata_api_key: str):
+class Wmata(configData):
+    def get_next_train(self):
         """
         Method that queries the WMATA API to get information about the next train(s) arriving at a station
         Args:
-            station_code (str): a string that indicates the station code
-            wmata_api_key (str): API key that must be requested from WMATA
+            None; wmata_station_code and wmata_api_key are inherited from configData
         Returns:
             A list of strings that contain information about the Line, Destination, and Minutes to next train
         """
+
         ## Make GET request
         ##TODO: limit requests only during when the train is running
         wmata_req_url = str(
-            f"https://api.wmata.com/StationPrediction.svc/json/GetPrediction/{station_code}"
+            f"https://api.wmata.com/StationPrediction.svc/json/GetPrediction/{self.wmata_station_code}"
         )
         headers = {
-            "api_key": wmata_api_key,
+            "api_key": self.wmata_api_key,
         }
 
         try:
