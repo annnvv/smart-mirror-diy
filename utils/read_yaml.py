@@ -3,11 +3,11 @@ import yaml
 
 class configData:
     def __init__(self) -> None:
-        with open("../_auth/config.yaml", "r") as f:
+        with open("_auth/config.yaml", "r") as f:
             config = yaml.safe_load(f)
 
         self.weather_api_key = config["weather"]["api_key"]
-        self.weather_zip_code = config["weather"]["zip_code"]
+        self.weather_zip_code = config["weather"]["zipcode"]
 
         self.wmata_api_key = config["wmata"]["api_key"]
         self.wmata_station_code = config["wmata"]["station_code"]
