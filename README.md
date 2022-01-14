@@ -15,6 +15,11 @@ The smart mirror will display:
 
 **Lessons Learned**:
 - Creating a GUI using tkinter
+  - Using Frames to create a grid, using pack within Frames
+  - .grid() versus .pack() methods
+  - Displaying images
+  - Using TreeView to display data tabularly (in progress)
+  - .after method (in progress)
 - Python Object Orientation
   - instance versus class methods
   - inheritance of classes
