@@ -4,8 +4,6 @@
 
 **Purpose**: The purpose of this repo is to house the code to generate an interface for a smart mirror.
 
-The code in this repo is based on this repo [https://github.com/HackerShackOfficial/Smart-Mirror]
-
 The smart mirror will display:
 - [DONE] Greeting
 - Day of Week, Date
@@ -21,3 +19,6 @@ The smart mirror will display:
   - instance versus class methods
   - inheritance of classes
 - Calling REST APIs using requests
+
+
+**Inspiration**: This project is inspired by a DIY smart mirror [Youtube video](https://www.youtube.com/watch?v=fkVBAcvbrjU&list=WL&index=10&t=2s) and its corresponding [repo](https://github.com/HackerShackOfficial/Smart-Mirror).
