@@ -1,15 +1,23 @@
 # Smart Mirror DIY
 
-<b>Status</b>: In progress
+**Status**: IN PROGRESS
 
-<b>Purpose</b>: The purpose of this repo is to house the code to generate an interface for a smart mirror. 
+**Purpose**: The purpose of this repo is to house the code to generate an interface for a smart mirror.
 
 The code in this repo is based on this repo [https://github.com/HackerShackOfficial/Smart-Mirror]
 
 The smart mirror will display:
-- Greeting
+- [DONE] Greeting
 - Day of Week, Date
 - Time of day
-- Weather information (temperature and current weather icon)
-- WMATA next train information
-- DASH bus information
+- [IN PROGRESS] Weather information (temperature and current weather icon)
+- [IN PROGRESS] WMATA next train information
+- [ON HOLD] DASH bus information
+
+
+**Lessons Learned**:
+- Creating a GUI using tkinter
+- Python Object Orientation
+  - instance versus class methods
+  - inheritance of classes
+- Calling REST APIs using requests
