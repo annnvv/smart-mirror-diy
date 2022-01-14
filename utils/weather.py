@@ -1,11 +1,10 @@
 import requests
 import json
 from datetime import datetime
-from utils.read_yaml import configData
+from read_yaml import configData
 
 
 class Weather(configData):
-    ##TODO: Figure out how to implement tkinter after method
     def get_weather(self) -> None:
         """
         Method to query the openweathermap API to get current temperature, feels like temperature,
@@ -25,7 +24,7 @@ class Weather(configData):
         try:
             r = requests.get(weather_req_url)
             weather_obj = json.loads(r.text)
-
+            # print(weather_obj)
         except requests.exceptions.RequestException as e:
             print("Raise error:", e)
 
@@ -43,7 +42,4 @@ class Weather(configData):
         self.sunset = datetime.fromtimestamp(weather_obj["sys"]["sunset"]).strftime(
             "%H:%M"
         )
-        # return None
-
-        self.after(600000 * 1.5, self.get_weather)
-        ## get weather every 15 minutes (API limit every 10 mintues)
+        return None
