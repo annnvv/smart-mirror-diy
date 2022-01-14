@@ -8,7 +8,7 @@ class Wmata(configData):
     # def get_station_open_close(self) -> None:
     #     """Get station information open and close times"""
     #     wmata_req_url = str(
-    #         f"https://api.wmata.com/Rail.svc/json/jStationTimes/{self.wmata_station_code}"
+    #         f"https://api.wmata.com/Rail.svc/json/jStationTimes?StationCode={self.wmata_station_code}"
     #     )
     #     headers = {
     #         "api_key": self.wmata_api_key,
