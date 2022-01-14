@@ -18,6 +18,7 @@ The smart mirror will display:
 - Python Object Orientation
   - instance versus class methods
   - inheritance of classes
+- Decoupling the classes from the GUI (at least attempting to do this)
 - Calling REST APIs using requests
 
 
