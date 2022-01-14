@@ -29,6 +29,7 @@ class Weather(configData):
             print("Raise error:", e)
 
         ## Parse data from request
+        ##TODO: maybe created a different instance method to parse the data??
         self.temp = str(round(weather_obj["main"]["temp"]))
         self.feels_like = str(round(weather_obj["main"]["feels_like"]))
         self.temp_max = str(round(weather_obj["main"]["temp_max"]))
