@@ -46,7 +46,6 @@ class Wmata(configData):
         ##TODO2: (medium priority) limit requests only during when the train is running (note to self: this might be more appropriate in the display/GUI than here)
         current_time = datetime.now().strftime("%H:%M")
         if current_time > "07:00" and current_time < "23:59":
-            print(current_time)
             try:
 
                 r = requests.get(wmata_req_url, params=headers)
