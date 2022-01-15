@@ -12,5 +12,5 @@ class configData:
         self._wmata_api_key = config["wmata"]["api_key"]
         self._wmata_station_code = config["wmata"]["station_code"]
 
-        # self.dash_bus_number = config["dash"]["bus_number"]
-        # self.dash_stop_numbers = config["dash"]["stop_numbers"]
+        # self._dash_bus_number = config["dash"]["bus_number"]
+        # self._dash_stop_numbers = config["dash"]["stop_numbers"]
