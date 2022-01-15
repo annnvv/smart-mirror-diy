@@ -37,10 +37,10 @@ class Wmata(configData):
 
         ## Make GET request (only when metro station is open)
         wmata_req_url = str(
-            f"https://api.wmata.com/StationPrediction.svc/json/GetPrediction/{self.wmata_station_code}"
+            f"https://api.wmata.com/StationPrediction.svc/json/GetPrediction/{self._wmata_station_code}"
         )
         headers = {
-            "api_key": self.wmata_api_key,
+            "api_key": self._wmata_api_key,
         }
 
         ##TODO2: (medium priority) limit requests only during when the train is running (note to self: this might be more appropriate in the display/GUI than here)

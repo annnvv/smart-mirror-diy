@@ -43,7 +43,7 @@ class Weather(configData):
 
         ## Make GET request
         weather_req_url = str(
-            f"https://api.openweathermap.org/data/2.5/weather?zip={self.weather_zip_code}&appid={self.weather_api_key}&units=imperial"
+            f"https://api.openweathermap.org/data/2.5/weather?zip={self._weather_zip_code}&appid={self._weather_api_key}&units=imperial"
         )
 
         try:
