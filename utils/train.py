@@ -47,7 +47,6 @@ class Wmata(configData):
         current_time = datetime.now().strftime("%H:%M")
         if current_time > "07:00" and current_time < "23:59":
             try:
-
                 r = requests.get(wmata_req_url, params=headers)
                 train_obj = json.loads(r.text)
 
