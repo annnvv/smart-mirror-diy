@@ -6,8 +6,8 @@
 
 The smart mirror will display:
 - [DONE] Greeting
-- Day of Week, Date
-- Time of day
+- [IN PROGRESS] Day of Week, Date
+- [IN PROGRESS] Time of day
 - [IN PROGRESS] Weather information
   - Temperature, feels like, high, low, and current weather icon
 - [IN PROGRESS] WMATA next train information
@@ -33,6 +33,6 @@ The smart mirror will display:
 
 **Resources**:
 There are some of the resources that I have found helpful in working on this project (not an exhaustive list).
-1. (Python Class vs. Static vs. Instance Methods)[https://pynative.com/python-class-method-vs-static-method-vs-instance-method/]
-2. (tkinter TreeView)[https://www.pythontutorial.net/tkinter/tkinter-treeview/]
-3. (tkinter after method)[https://stackoverflow.com/questions/44085554/how-to-use-the-after-method-to-make-a-callback-run-periodically] practical example at the end !
+1. [Python Class vs. Static vs. Instance Methods](https://pynative.com/python-class-method-vs-static-method-vs-instance-method/)
+2. [tkinter TreeView](https://www.pythontutorial.net/tkinter/tkinter-treeview/)
+3. [tkinter after method](https://stackoverflow.com/questions/44085554/how-to-use-the-after-method-to-make-a-callback-run-periodically) practical example at the end !
