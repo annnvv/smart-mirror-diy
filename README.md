@@ -2,6 +2,8 @@
 
 **Status**: IN PROGRESS
 
+TODO: add virtual environment
+
 **Purpose**: The purpose of this repo is to house the code to generate an interface for a smart mirror.
 
 The smart mirror will display:
