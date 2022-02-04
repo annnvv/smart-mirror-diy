@@ -7,7 +7,7 @@ authors = [""]
 [tool.poetry.dependencies]
 python = "^3.7"
 requests = "^2.27.1"
-pillow = "^8.4.0"
+pillow = "^9.0.0"
 
 [tool.poetry.dev-dependencies]
 
