@@ -15,6 +15,9 @@ The smart mirror will display:
 - [IN PROGRESS] WMATA next train information
 - [ON HOLD] DASH next bus information
 
+**Data Sources**:
+- Weather: [Open Weather Map Api](https://openweathermap.org/api)
+- Metro: [WMATA API](https://developer.wmata.com/)
 
 **Lessons Learned**:
 - Creating a GUI using tkinter
