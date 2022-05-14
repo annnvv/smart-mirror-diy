@@ -2,7 +2,7 @@
 
 **Status**: IN PROGRESS
 
-TODO: add virtual environment
+**Inspiration**: This project is inspired by a DIY smart mirror [Youtube video](https://www.youtube.com/watch?v=fkVBAcvbrjU&list=WL&index=10&t=2s) and its corresponding [repo](https://github.com/HackerShackOfficial/Smart-Mirror).
 
 **Purpose**: The purpose of this repo is to house the code to generate an interface for a smart mirror.
 
@@ -19,7 +19,7 @@ The smart mirror will display:
 - Weather: [Open Weather Map Api](https://openweathermap.org/api)
 - Metro: [WMATA API](https://developer.wmata.com/)
 
-**Lessons Learned**:
+## Lessons Learned:
 - Creating a GUI using tkinter
   - Using Frames to create a grid, using pack within Frames
   - .grid() versus .pack() methods
@@ -33,10 +33,7 @@ The smart mirror will display:
 - Calling REST APIs using requests
 
 
-**Inspiration**: This project is inspired by a DIY smart mirror [Youtube video](https://www.youtube.com/watch?v=fkVBAcvbrjU&list=WL&index=10&t=2s) and its corresponding [repo](https://github.com/HackerShackOfficial/Smart-Mirror).
-
-
-**Resources**:
+## Resources:
 There are some of the resources that I have found helpful in working on this project (not an exhaustive list).
 1. [Python Class vs. Static vs. Instance Methods](https://pynative.com/python-class-method-vs-static-method-vs-instance-method/)
 2. [tkinter TreeView](https://www.pythontutorial.net/tkinter/tkinter-treeview/)
