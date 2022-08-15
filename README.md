@@ -7,13 +7,13 @@
 **Purpose**: The purpose of this repo is to house the code to generate an interface for a smart mirror.
 
 The smart mirror will display:
-- [Done] Greeting
-- [In Progress] Day of Week, Date
-- [In Progress] Time of day
-- [In Progress] Weather information
+- [DONE] Greeting
+- [DONE] Day of Week, Date
+- [DONE] Time of day
+- [IN PROGRESS] Weather information
   - Temperature, feels like, high, low, and current weather icon
-- [In Progress] WMATA next train information
-- [On Hold] DASH next bus information
+- [IN PROGRESS] WMATA next train information
+- [ON HOLD] DASH next bus information
 
 **Data Sources**:
 - Weather: [Open Weather Map Api](https://openweathermap.org/api)
@@ -32,8 +32,20 @@ The smart mirror will display:
 - Decoupling the classes from the GUI (at least attempting to do this, surprisingly challenging)
 - Calling REST APIs using requests
 
-## Resources:
+**Resources**:
+[Event Driven Programming in Python](https://odsc.medium.com/decoupling-complex-systems-with-event-driven-python-programming-d67092d45939)
 There are some of the resources that I have found helpful in working on this project (not an exhaustive list).
 1. [Python Class vs. Static vs. Instance Methods](https://pynative.com/python-class-method-vs-static-method-vs-instance-method/)
 2. [tkinter TreeView](https://www.pythontutorial.net/tkinter/tkinter-treeview/)
 3. [tkinter after method](https://stackoverflow.com/questions/44085554/how-to-use-the-after-method-to-make-a-callback-run-periodically) practical example at the end !
+https://maldus512.medium.com/how-to-setup-correctly-an-application-with-python-and-tkinter-107c6bc5a45 !!!!
+https://docs.python.org/3/library/tkinter.html#coupling-widget-variables
+https://stackoverflow.com/questions/459083/how-do-you-run-your-own-code-alongside-tkinters-event-loop
+https://stackoverflow.com/questions/9342757/tkinter-executing-functions-over-time
+https://stackoverflow.com/questions/25753632/tkinter-how-to-use-after-method
+https://pythonbasics.org/tkinter-label/
+https://www.journaldev.com/48165/tkinter-working-with-classes
+https://forums.raspberrypi.com/viewtopic.php?t=137597
+https://blog.teclado.com/write-snake-game-python-tkinter-part-2/
+https://subscription.packtpub.com/book/application-development/9781788627481/1/ch01lvl1sec14/using-variables
+https://linuxconfig.org/how-to-build-a-tkinter-application-using-an-object-oriented-approach
