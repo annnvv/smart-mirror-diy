@@ -1,22 +1,25 @@
 # Smart Mirror DIY
 
-**Status**: IN PROGRESS
+**Status**: In Progress
 
-TODO: add virtual environment
+**Inspiration**: This project is inspired by a DIY smart mirror [Youtube video](https://www.youtube.com/watch?v=fkVBAcvbrjU&list=WL&index=10&t=2s) and its corresponding [repo](https://github.com/HackerShackOfficial/Smart-Mirror).
 
 **Purpose**: The purpose of this repo is to house the code to generate an interface for a smart mirror.
 
 The smart mirror will display:
-- [DONE] Greeting
-- [IN PROGRESS] Day of Week, Date
-- [IN PROGRESS] Time of day
-- [IN PROGRESS] Weather information
+- [Done] Greeting
+- [In Progress] Day of Week, Date
+- [In Progress] Time of day
+- [In Progress] Weather information
   - Temperature, feels like, high, low, and current weather icon
-- [IN PROGRESS] WMATA next train information
-- [ON HOLD] DASH next bus information
+- [In Progress] WMATA next train information
+- [On Hold] DASH next bus information
 
+**Data Sources**:
+- Weather: [Open Weather Map Api](https://openweathermap.org/api)
+- Metro: [WMATA API](https://developer.wmata.com/)
 
-**Lessons Learned**:
+## Lessons Learned:
 - Creating a GUI using tkinter
   - Using Frames to create a grid, using pack within Frames
   - .grid() versus .pack() methods
@@ -29,11 +32,7 @@ The smart mirror will display:
 - Decoupling the classes from the GUI (at least attempting to do this, surprisingly challenging)
 - Calling REST APIs using requests
 
-
-**Inspiration**: This project is inspired by a DIY smart mirror [Youtube video](https://www.youtube.com/watch?v=fkVBAcvbrjU&list=WL&index=10&t=2s) and its corresponding [repo](https://github.com/HackerShackOfficial/Smart-Mirror).
-
-
-**Resources**:
+## Resources:
 There are some of the resources that I have found helpful in working on this project (not an exhaustive list).
 1. [Python Class vs. Static vs. Instance Methods](https://pynative.com/python-class-method-vs-static-method-vs-instance-method/)
 2. [tkinter TreeView](https://www.pythontutorial.net/tkinter/tkinter-treeview/)
