@@ -37,10 +37,10 @@ The smart mirror will display:
 There are some of the resources that I have found helpful in working on this project (not an exhaustive list).
 1. [Python Class vs. Static vs. Instance Methods](https://pynative.com/python-class-method-vs-static-method-vs-instance-method/)
 2. [tkinter TreeView](https://www.pythontutorial.net/tkinter/tkinter-treeview/)
-3. [tkinter after method](https://stackoverflow.com/questions/44085554/how-to-use-the-after-method-to-make-a-callback-run-periodically) practical example at the end !
+3. [tkinter after()](https://stackoverflow.com/questions/44085554/how-to-use-the-after-method-to-make-a-callback-run-periodically) practical example at the end !
+4. [last answer on SO: StringVar(), .set(), and after()](https://stackoverflow.com/questions/459083/how-do-you-run-your-own-code-alongside-tkinters-event-loop)
 https://maldus512.medium.com/how-to-setup-correctly-an-application-with-python-and-tkinter-107c6bc5a45 !!!!
 https://docs.python.org/3/library/tkinter.html#coupling-widget-variables
-https://stackoverflow.com/questions/459083/how-do-you-run-your-own-code-alongside-tkinters-event-loop
 https://stackoverflow.com/questions/9342757/tkinter-executing-functions-over-time
 https://stackoverflow.com/questions/25753632/tkinter-how-to-use-after-method
 https://pythonbasics.org/tkinter-label/
