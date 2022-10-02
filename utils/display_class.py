@@ -307,13 +307,13 @@ class Display(tk.Frame):
                 self.train_info.append(train)
         return None
 
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("")
+    root.configure(background="black")
+    # root.wm_attributes("-fullscreen", "True") ##av.note really difficult to close (have to go to task manager); probably will use this in final version of gui
+    root.state("zoomed")  # start app with maximized display
 
-# root = tk.Tk()
-# root.title("")
-# root.configure(background="black")
-# # root.wm_attributes("-fullscreen", "True") ##av.note really difficult to close (have to go to task manager); probably will use this in final version of gui
-# root.state("zoomed")  # start app with maximized display
+    app = Display(master=root)
 
-# app = Display(master=root)
-
-# root.mainloop()
+    root.mainloop()

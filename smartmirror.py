@@ -1,13 +1,14 @@
 # smartmirror.py
 
-from utils.display import displayWindow
-from utils.weather import Weather
+from tkinter import Tk
+from utils.display_class import Display
 
-# from utils.train import Wmata
-# from utils.clock import Clock
+root = Tk()
+root.title("")
+root.configure(background="black")
+# root.wm_attributes("-fullscreen", "True") ##av.note really difficult to close (have to go to task manager); probably will use this in final version of gui
+root.state("zoomed")  # start app with maximized display
 
-# weather = Weather()
-# train = Wmata()
+app = Display(master=root)
 
-w = displayWindow()
-w.root.mainloop()
+root.mainloop()
