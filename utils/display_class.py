@@ -27,6 +27,10 @@ class Display(tk.Frame):
         fontStyleMedium = tkFont.Font(family=font_name, size=24)
         fontStyleSmall = tkFont.Font(family=font_name, size=16)
 
+        ##TODO: (medium priority)implement logic if there are more than one screen; this code pulls from main screen
+        frame_height = master.winfo_screenheight() / 3
+        frame_width = master.winfo_screenwidth() / 3
+
         tk.Frame.__init__(self, master)
 
         frame1 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
@@ -164,7 +168,7 @@ class Display(tk.Frame):
         )
         sun_lbl.pack(anchor=S)
 
-        Thread(target=self.get_weather(cfd["weather"]))
+        Thread(target=self.get_weather(cfd))
 
         ## Metro (Bottom Left)
         ### self.train = Wmata(self.frame7, cfd._wmata_api_key, cfd._wmata_station_code)
@@ -304,16 +308,12 @@ class Display(tk.Frame):
         return None
 
 
-root = tk.Tk()
-root.title("")
-root.configure(background="black")
-# root.wm_attributes("-fullscreen", "True") ##av.note really difficult to close (have to go to task manager); probably will use this in final version of gui
-root.state("zoomed")  # start app with maximized display
+# root = tk.Tk()
+# root.title("")
+# root.configure(background="black")
+# # root.wm_attributes("-fullscreen", "True") ##av.note really difficult to close (have to go to task manager); probably will use this in final version of gui
+# root.state("zoomed")  # start app with maximized display
 
-##TODO: (medium priority)implement logic if there are more than one screen; this code pulls from main screen
-frame_height = root.winfo_screenheight() / 3
-frame_width = root.winfo_screenwidth() / 3
+# app = Display(master=root)
 
-app = Display(master=root)
-
-root.mainloop()
+# root.mainloop()
