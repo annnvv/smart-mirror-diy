@@ -168,7 +168,7 @@ class Display(tk.Frame):
         )
         sun_lbl.pack(anchor=S)
 
-        Thread(target=self.get_weather(cfd))
+        Thread(target=self.get_weather(cfd)).start()
 
         ## Metro (Bottom Left)
         ### self.train = Wmata(self.frame7, cfd._wmata_api_key, cfd._wmata_station_code)
@@ -219,12 +219,19 @@ class Display(tk.Frame):
         tree.heading("Destination", text="Destination", anchor=W)
         tree.heading("Min", text="Min", anchor=W)
 
-        # self.train_info =
-        # if train.train_info:
-        #     for row in train.train_info:
-        #         tree.insert("", END, values=row)
+        ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/tree_excel.py#L44
+        ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/tree.py
+        ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/treebase.py
+
+        ### need to define train_info
+        self.train_info = ""
+        if self.train_info:
+            for row in self.train_info:
+                tree.insert("", END, values=row)
 
         tree.pack(anchor=S)
+
+        Thread(target=self.get_train_info(cfd)).start()
 
     def get_date_time(self):
         self.dow_var.set(datetime.today().strftime("%A"))
@@ -301,11 +308,17 @@ class Display(tk.Frame):
             for i in range(len(train_obj["Trains"])):
                 train = [
                     [train_obj["Trains"][i]["Line"]],
-                    [train_obj["Trains"][i]["Destination"]],
+                    [train_obj["Trains"][i]["DestinationName"]],
                     [train_obj["Trains"][i]["Min"]],
                 ]
                 self.train_info.append(train)
+        print(self.train_info)
+        print(type(self.train_info))
+
+        self.after(300000, self.get_train_info)  # 300000ms = 5 minutes
+
         return None
+
 
 if __name__ == "__main__":
     root = tk.Tk()
