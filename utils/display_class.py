@@ -22,9 +22,9 @@ class Display(tk.Frame):
         pad30 = 30
 
         font_name = "Lucida Grande"  ##Helvetica
-        fontStyleLarge = tkFont.Font(family=font_name, size=32)  # 37
-        fontStyleMedium = tkFont.Font(family=font_name, size=24)  # 28
-        fontStyleSmall = tkFont.Font(family=font_name, size=16)  # 21
+        fontStyleLarge = tkFont.Font(family=font_name, size=37)  # 37
+        fontStyleMedium = tkFont.Font(family=font_name, size=28)  # 28
+        fontStyleSmall = tkFont.Font(family=font_name, size=21)  # 21
 
         ##TODO: (medium priority)implement logic if there are more than one screen; this code pulls from main screen
         frame_height = master.winfo_screenheight() / 3
@@ -77,7 +77,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        dow_lbl.pack(anchor=NW)  # grid(row=0, column=0, padx=5, pady=5, sticky=W)
+        dow_lbl.pack(anchor=NW)
 
         self.date_var = StringVar()
         date_lbl = Label(
@@ -87,7 +87,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        date_lbl.pack(anchor=NW)  # grid(row=1, column=0, padx=5, pady=5, sticky=W)
+        date_lbl.pack(anchor=NW)
 
         self.time_var = StringVar()
         time_lbl = Label(
@@ -97,7 +97,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        time_lbl.pack(anchor=NW)  # .grid(row=2, column=0, padx=5, pady=5, sticky=W)
+        time_lbl.pack(anchor=NW)
 
         Thread(target=self.get_date_time()).start()
 
