@@ -3,12 +3,11 @@ import tkinter as tk
 from tkinter import Label, Frame, StringVar, NW, NE, S, W, SW, SE, END, CENTER
 import tkinter.font as tkFont
 from tkinter.ttk import Treeview, Style
-from PIL import ImageTk, Image
-
+import json
 from threading import Thread
 
 import requests
-import json
+from PIL import ImageTk, Image
 
 from read_yaml import configData
 
@@ -23,9 +22,9 @@ class Display(tk.Frame):
         pad30 = 30
 
         font_name = "Lucida Grande"  ##Helvetica
-        fontStyleLarge = tkFont.Font(family=font_name, size=32)
-        fontStyleMedium = tkFont.Font(family=font_name, size=24)
-        fontStyleSmall = tkFont.Font(family=font_name, size=16)
+        fontStyleLarge = tkFont.Font(family=font_name, size=32)  # 37
+        fontStyleMedium = tkFont.Font(family=font_name, size=24)  # 28
+        fontStyleSmall = tkFont.Font(family=font_name, size=16)  # 21
 
         ##TODO: (medium priority)implement logic if there are more than one screen; this code pulls from main screen
         frame_height = master.winfo_screenheight() / 3
@@ -50,7 +49,9 @@ class Display(tk.Frame):
         frame8 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
         frame9 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
 
-        frame1.grid(row=0, column=0)
+        frame1.grid(
+            row=0, column=0, pady=(pad30, 0), padx=(pad30, 0)
+        )  ##av.note to self: pad the frame instead of padding each line of text!
         frame2.grid(row=0, column=1)
         frame3.grid(row=0, column=2)
         frame4.grid(row=1, column=0)
@@ -154,9 +155,12 @@ class Display(tk.Frame):
 
         # ##TODO: (HIGH priority)need to implement a .remove method for the label so that each image doesn't get stacked on top
         self.img_path_var = StringVar()
-        # weather_img = ImageTk.PhotoImage(Image.open(self.img_path_var).resize((95, 95)))
-        # weather_img_lbl = Label(frame3, image=weather_img, borderwidth=0)
-        # weather_img_lbl.pack(padx=pad30, anchor=NE)
+        if self.img_path_var.get():
+            self.weather_img = ImageTk.PhotoImage(
+                Image.open(self.img_path_var.get()).resize((95, 95))
+            )
+            self.weather_img_lbl = Label(frame3, image=self.weather_img, borderwidth=0)
+            self.weather_img_lbl.pack(padx=pad30, anchor=NE)
 
         self.sun_rise_set_var = StringVar()
         sun_lbl = Label(
@@ -223,6 +227,8 @@ class Display(tk.Frame):
         ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/tree.py
         ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/treebase.py
 
+        ##https://stackoverflow.com/questions/49028505/how-to-let-figure-inserted-in-tkinter-entry-widget-overwrite-default-in-tkinter
+
         ### need to define train_info
         self.train_info = ""
         if self.train_info:
@@ -240,6 +246,33 @@ class Display(tk.Frame):
 
         self.after(1000, self.get_date_time)
 
+    def get_weather_icon_path(self, weather_desc):
+        # maps open weather icons to weather conditions, see https://openweathermap.org/weather-conditions
+        ##TODO: (low priority)implement logic for clear day/night and cloudly day/night (something having to do with sunrise or sunset)
+        __icon_lookup = {
+            "clear": "imgs/Sun.png",
+            # "clear-sky": "imgs/Sun.png",  # clear sky day
+            # "clear-night": "imgs/Moon.png",  # clear sky night
+            "clouds": "imgs/Cloud.png",  # cloudy day
+            # "partly-cloudy-day": "imgs/PartlySunny.png",  # partly cloudy day
+            # "partly-cloudy-night": "imgs/PartlyMoon.png",  # scattered clouds night
+            "thunderstorm": "imgs/Storm.png",  # thunderstorm
+            "drizzle": "imgs/Rain.png",  # rain day
+            "rain": "imgs/Rain.png",  # rain day
+            "snow": "imgs/Snow.png",  # snow day
+            "mist": "imgs/Haze.png",
+            "smoke": "imgs/Haze.png",
+            "haze": "imgs/Haze.png",
+            "dust": "imgs/Haze.png",
+            "fog": "imgs/Haze.png",  # fog day
+            "sand": "imgs/Haze.png",
+            "ash": "imgs/Haze.png",
+            "squall": "imgs/Haze.png",
+            "tornado": "imgs/Tornado.png",  # tornado
+        }
+
+        return __icon_lookup[weather_desc]
+
     def get_weather(self, config):
         ## Make GET request
         weather_req_url = str(
@@ -249,7 +282,7 @@ class Display(tk.Frame):
         try:
             r = requests.get(weather_req_url)
             weather_obj = json.loads(r.text)
-            # print(weather_obj)
+
         except requests.exceptions.RequestException as e:
             print("Raise error:", e)
 
@@ -272,7 +305,10 @@ class Display(tk.Frame):
         )
 
         self.weather_desc_var.set(weather_obj["weather"][0]["main"])
-        # self.img_path_var.set(self.__icon_lookup[self.weather_desc.lower()])
+
+        self.img_path_var.set(
+            self.get_weather_icon_path(self.weather_desc_var.get().lower())
+        )
 
         self.sun_rise_set_var.set(
             "Rise "
@@ -282,10 +318,10 @@ class Display(tk.Frame):
             + datetime.fromtimestamp(weather_obj["sys"]["sunset"]).strftime("%H:%M")
         )
 
-        self.after(900000, self.get_weather)  # 900000ms = 15 minutes
+        self.after(900000, self.get_weather, cfd)  # 900000ms = 15 minutes
+        ## need to reference config/cfd here!
 
     def get_train_info(self, config):
-        ## Make GET request (only when metro station is open)
         wmata_req_url = str(
             f"https://api.wmata.com/StationPrediction.svc/json/GetPrediction/{config._wmata_station_code}"
         )
@@ -293,6 +329,7 @@ class Display(tk.Frame):
             "api_key": config._wmata_api_key,
         }
 
+        ## Make GET request (only when metro station is open)
         # ##TODO2: (medium priority) limit requests only during when the train is running (note to self: this might be more appropriate in the display/GUI than here)
         try:
             r = requests.get(wmata_req_url, params=headers)
@@ -315,7 +352,8 @@ class Display(tk.Frame):
         print(self.train_info)
         print(type(self.train_info))
 
-        self.after(300000, self.get_train_info)  # 300000ms = 5 minutes
+        self.after(300000, self.get_train_info, cfd)  # 300000ms = 5 minutes
+        ##(need to reference config/cfd here!!)
 
         return None
 
