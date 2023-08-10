@@ -1,9 +1,8 @@
 from datetime import datetime
 import tkinter as tk
-from tkinter import Label, Frame, StringVar, NW, NE, S, W, SW, SE, END, CENTER
+from tkinter import Label, Frame, StringVar, BOTH, N, E, NW, NE, S, W, SW, SE, END, CENTER
 import tkinter.font as tkFont
 from tkinter.ttk import Treeview, Style
-import json
 from threading import Thread
 
 import requests
@@ -22,13 +21,15 @@ class Display(tk.Frame):
         pad30 = 30
 
         font_name = "Lucida Grande"  ##Helvetica
-        fontStyleLarge = tkFont.Font(family=font_name, size=37)  # 37
-        fontStyleMedium = tkFont.Font(family=font_name, size=28)  # 28
-        fontStyleSmall = tkFont.Font(family=font_name, size=21)  # 21
+        fontStyleLarge = tkFont.Font(family=font_name, size=37)
+        fontStyleMedium = tkFont.Font(family=font_name, size=28)
+        fontStyleSmall = tkFont.Font(family=font_name, size=21)
 
         ##TODO: (medium priority)implement logic if there are more than one screen; this code pulls from main screen
         frame_height = master.winfo_screenheight() / 3
         frame_width = master.winfo_screenwidth() / 3
+
+        master.configure(bg='black')
 
         tk.Frame.__init__(self, master)
 
@@ -38,37 +39,31 @@ class Display(tk.Frame):
         frame4 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
         frame5 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
         frame6 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
-        frame7 = Frame(
-            master,
-            bg=bg_color,
-            height=frame_height,
-            width=frame_width,
-            background=bg_color,
-            relief="flat",
-        )
+        frame7 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
         frame8 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
         frame9 = Frame(master, bg=bg_color, height=frame_height, width=frame_width)
 
-        frame1.grid(
-            row=0, column=0, pady=(pad30, 0), padx=(pad30, 0)
-        )  ##av.note to self: pad the frame instead of padding each line of text!
+        frame1.grid(row=0, column=0, sticky = NW)
         frame2.grid(row=0, column=1)
-        frame3.grid(row=0, column=2)
-        frame4.grid(row=1, column=0)
+        frame3.grid(row=0, column=2, sticky = E)
+        frame4.grid(row=1, column=0, sticky = W)
         frame5.grid(row=1, column=1)
-        frame6.grid(row=1, column=2)
-        frame7.grid(row=2, column=0, sticky=SW, padx=(pad30, 0))
-        frame8.grid(row=2, column=1)
-        frame9.grid(row=2, column=2)
-
-        ## TODO (medium priority) figure out difference between pack_propagate and grid_propagate
-        frame1.pack_propagate(False)
-        frame2.pack_propagate(False)
-        frame3.pack_propagate(False)
-        frame7.pack_propagate(True)
-        frame9.pack_propagate(False)
+        frame6.grid(row=1, column=2, sticky = E)
+        frame7.grid(row=2, column=0, sticky = SW)
+        frame8.grid(row=2, column=1, stick = S)
+        frame9.grid(row=2, column=2, sticky = E)
 
         ## Date and Time (Top Left Frame)
+        self.sun_rise_set_var = StringVar()
+        sun_lbl = Label(
+            frame1,
+            textvariable=self.sun_rise_set_var,
+            font=fontStyleSmall,
+            bg=bg_color,
+            fg=text_color,
+        )
+        sun_lbl.pack(anchor = W, pady=(pad30,0), padx = (pad30, 0))
+
         self.dow_var = StringVar()
         dow_lbl = Label(
             frame1,
@@ -77,7 +72,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        dow_lbl.pack(anchor=NW)
+        dow_lbl.pack(anchor = W, padx = (pad30, 0))
 
         self.date_var = StringVar()
         date_lbl = Label(
@@ -87,7 +82,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        date_lbl.pack(anchor=NW)
+        date_lbl.pack(anchor = W, padx = (pad30, 0))
 
         self.time_var = StringVar()
         time_lbl = Label(
@@ -97,9 +92,11 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        time_lbl.pack(anchor=NW)
+        time_lbl.pack(anchor = W, padx = (pad30, 0))
 
-        Thread(target=self.get_date_time()).start()
+        self.update_thread = Thread(target=self.get_date_time())
+        self.update_thread.daemon = True
+        self.update_thread.start()
 
         ## Greeting (Top Middle Frame)
         ##TODO:(low priority)implement conditional greeting (Good Morning, Good Afternoon, Good Evening)
@@ -110,7 +107,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        greeting_lbl.pack(pady=pad30)
+        greeting_lbl.pack()
 
         # ## Weather (Top Right Frame)
         self.temp_var = StringVar()
@@ -121,7 +118,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        current_temp_lbl.pack(pady=(pad30, 0), padx=pad30, anchor=NE)
+        current_temp_lbl.pack(anchor = E, pady=(pad30,0), padx = (0, pad30))
 
         self.feels_like_var = StringVar()
         feels_like_lbl = Label(
@@ -131,7 +128,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        feels_like_lbl.pack(padx=pad30, anchor=NE)
+        feels_like_lbl.pack(anchor = E, padx = (0, pad30))
 
         self.temp_max_min_var = StringVar()
         daily_max_min_lbl = Label(
@@ -141,7 +138,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        daily_max_min_lbl.pack(padx=pad30, anchor=NE)
+        daily_max_min_lbl.pack(anchor = E, padx = (0, pad30))
 
         self.weather_desc_var = StringVar()
         desc_lbl = Label(
@@ -151,7 +148,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        desc_lbl.pack(padx=pad30, anchor=NE)
+        desc_lbl.pack(anchor = E, padx = (0, pad30))
 
         # ##TODO: (HIGH priority)need to implement a .remove method for the label so that each image doesn't get stacked on top
         self.img_path_var = StringVar()
@@ -160,28 +157,28 @@ class Display(tk.Frame):
                 Image.open(self.img_path_var.get()).resize((95, 95))
             )
             self.weather_img_lbl = Label(frame3, image=self.weather_img, borderwidth=0)
-            self.weather_img_lbl.pack(padx=pad30, anchor=NE)
+            self.weather_img_lbl.pack(anchor = E, padx = (0, pad30))
 
-        self.sun_rise_set_var = StringVar()
-        sun_lbl = Label(
-            frame8,
-            textvariable=self.sun_rise_set_var,
+        self.aqi_var = StringVar()
+        aqi_lbl = Label(
+            frame6,
+            textvariable=self.aqi_var,
             font=fontStyleSmall,
             bg=bg_color,
             fg=text_color,
         )
-        sun_lbl.pack(anchor=S)
+        aqi_lbl.pack() #padx=pad30
 
-        Thread(target=self.get_weather(cfd)).start()
+        self.update_thread = Thread(target=self.get_weather(cfd))
+        self.update_thread.daemon = True
+        self.update_thread.start()
 
         ## Metro (Bottom Left)
-        ### self.train = Wmata(self.frame7, cfd._wmata_api_key, cfd._wmata_station_code)
-
-        ##TODO: (in progress - medium priority)change the background and foreground color!
         style = Style()
         style.theme_use("classic")
         style.configure(
             "Treeview",
+            anchor = NW,
             background=bg_color,
             fieldbackground=bg_color,
             foreground=text_color,
@@ -191,10 +188,6 @@ class Display(tk.Frame):
             highlightthickness=0,
             relief="flat",
         )
-        ##TODO: remove borders
-        # # style.layout(
-        # #     "Treeview", [("Treeview.treearea", {"sticky": "wnes"})]
-        # # )  # Remove the borders
         style.layout("Treeview", [("Treeview.field", {"border": "0"})])
         style.map("Treeview")
 
@@ -211,33 +204,28 @@ class Display(tk.Frame):
         )
         style.map("Treeview.Heading")
 
-        columns = ("Line", "Destination", "Min")
+        self.tree = Treeview(frame7, columns=("Line", "Destination",  "Min"), show="headings")
 
-        tree = Treeview(frame7, columns=columns, show="headings")
+        self.tree.column("Line", width=80, anchor=W)
+        self.tree.column("Destination", width=300, anchor=W)
+        self.tree.column("Min", width=80, anchor=W)
 
-        tree.column("Line", width=80, anchor=W)
-        tree.column("Destination", width=200, anchor=W)
-        tree.column("Min", width=80, anchor=W)
+        self.tree.heading("Line", text="Line", anchor=W)
+        self.tree.heading("Destination", text="Destination", anchor=W)
+        self.tree.heading("Min", text="Min", anchor=W)
 
-        tree.heading("Line", text="Line", anchor=W)
-        tree.heading("Destination", text="Destination", anchor=W)
-        tree.heading("Min", text="Min", anchor=W)
+        self.tree.pack(fill = BOTH, expand = True, padx = (pad30, 0))
 
-        ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/tree_excel.py#L44
-        ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/tree.py
-        ## https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course/blob/master/treebase.py
-
-        ##https://stackoverflow.com/questions/49028505/how-to-let-figure-inserted-in-tkinter-entry-widget-overwrite-default-in-tkinter
-
-        ### need to define train_info
         self.train_info = ""
         if self.train_info:
             for row in self.train_info:
-                tree.insert("", END, values=row)
+                 self.treetree.insert("", END, values=row)
 
-        tree.pack(anchor=S)
+        self.tree.pack(anchor=SW)
 
-        Thread(target=self.get_train_info(cfd)).start()
+        self.update_thread = Thread(target=self.get_train_info(cfd))
+        self.update_thread.daemon = True
+        self.update_thread.start()
 
     def get_date_time(self):
         self.dow_var.set(datetime.today().strftime("%A"))
@@ -280,8 +268,8 @@ class Display(tk.Frame):
         )
 
         try:
-            r = requests.get(weather_req_url)
-            weather_obj = json.loads(r.text)
+            r_weather = requests.get(weather_req_url)
+            weather_obj = r_weather.json()
 
         except requests.exceptions.RequestException as e:
             print("Raise error:", e)
@@ -319,7 +307,28 @@ class Display(tk.Frame):
         )
 
         self.after(900000, self.get_weather, cfd)  # 900000ms = 15 minutes
-        ## need to reference config/cfd here!
+
+    def get_aqi(self, config):
+        aqi_req_url = str(
+            f"http://api.openweathermap.org/data/2.5/air_pollution?lat={config._weather_lat}&lon={config._weather_lon}&appid={config._weather_api_key}"
+        )
+
+        try:
+            r_aqi = requests.get(aqi_req_url)
+            print(r_aqi)
+            aqi_obj = r_aqi.json()
+
+        except requests.exceptions.RequestException as e:
+            print("Raise error:", e)
+
+        aqi_cat = aqi_obj['list'][0]['main']['aqi']
+        aqi_value_mapping = {1: "Good", 2: "Moderate", 3: "Unhealthy for Sensitive Groups", 4: "Unhealthy", 5: "Very Unhealthy", 6: "Hazardous"}  
+        self.aqi_var.set(aqi_value_mapping.get(aqi_cat, "Unknown"))
+
+        # aqi_color_mapping = {1: "#00e400", 2: "#ffff00", 3: "#ff7e00", 4: "#ff0000", 5: "#8f3f97", 6: "126,0,35"}
+        # self.aqi_color.set(aqi_color_mapping.get(aqi_cat, "#808080"))
+
+        self.after(900000, self.get_aqi, cfd)  # 900000ms = 15 minutes
 
     def get_train_info(self, config):
         wmata_req_url = str(
@@ -332,30 +341,23 @@ class Display(tk.Frame):
         ## Make GET request (only when metro station is open)
         # ##TODO2: (medium priority) limit requests only during when the train is running (note to self: this might be more appropriate in the display/GUI than here)
         try:
-            r = requests.get(wmata_req_url, params=headers)
-            train_obj = json.loads(r.text)
+            r_wmata = requests.get(wmata_req_url, params=headers)
+            train_obj = r_wmata.json()
 
         except requests.exceptions.RequestException as e:
             print("Error:", e)
 
+        # Clear previous data in the table
+        self.tree.delete(*self.tree.get_children())
+
         ## Parse data from request
-        ##TODO: (HIGH priority) Need to figure out how to parse this info to feed it into the table
-        self.train_info = []
-        if train_obj["Trains"]:
-            for i in range(len(train_obj["Trains"])):
-                train = [
-                    [train_obj["Trains"][i]["Line"]],
-                    [train_obj["Trains"][i]["DestinationName"]],
-                    [train_obj["Trains"][i]["Min"]],
-                ]
-                self.train_info.append(train)
-        print(self.train_info)
-        print(type(self.train_info))
+        for entry in train_obj["Trains"]:
+            line = entry["Line"]
+            destination = entry["DestinationName"]
+            arrival_time = entry["Min"]
+            self.tree.insert("", "end", values=(line, destination,  arrival_time))
 
         self.after(300000, self.get_train_info, cfd)  # 300000ms = 5 minutes
-        ##(need to reference config/cfd here!!)
-
-        return None
 
 
 if __name__ == "__main__":
