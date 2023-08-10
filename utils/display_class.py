@@ -1,6 +1,6 @@
 from datetime import datetime
 import tkinter as tk
-from tkinter import Label, Frame, StringVar, BOTH, N, E, NW, NE, S, W, SW, SE, END, CENTER
+from tkinter import Label, Frame, Canvas, StringVar, BOTH, N, E, NW, NE, S, W, SW, SE, END, CENTER
 import tkinter.font as tkFont
 from tkinter.ttk import Treeview, Style
 from threading import Thread
@@ -28,8 +28,6 @@ class Display(tk.Frame):
         ##TODO: (medium priority)implement logic if there are more than one screen; this code pulls from main screen
         frame_height = master.winfo_screenheight() / 3
         frame_width = master.winfo_screenwidth() / 3
-
-        master.configure(bg='black')
 
         tk.Frame.__init__(self, master)
 
@@ -159,6 +157,10 @@ class Display(tk.Frame):
             self.weather_img_lbl = Label(frame3, image=self.weather_img, borderwidth=0)
             self.weather_img_lbl.pack(anchor = E, padx = (0, pad30))
 
+        self.update_thread = Thread(target=self.get_weather(cfd))
+        self.update_thread.daemon = True
+        self.update_thread.start()
+
         self.aqi_var = StringVar()
         aqi_lbl = Label(
             frame6,
@@ -167,11 +169,17 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        aqi_lbl.pack() #padx=pad30
+        aqi_lbl.pack(side="left",  padx = pad30/3)
 
-        self.update_thread = Thread(target=self.get_weather(cfd))
+        self.aqi_color = StringVar()
+        self.canvas = Canvas(frame6, background=bg_color, highlightthickness=0, height = 21, width = 21)
+        self.circle = self.canvas.create_oval(0,0,21,21, outline = bg_color, width = 2)
+        self.canvas.pack(side="left", anchor = E, padx = (0, pad30))
+
+        self.update_thread = Thread(target=self.get_aqi(cfd))
         self.update_thread.daemon = True
         self.update_thread.start()
+
 
         ## Metro (Bottom Left)
         style = Style()
@@ -315,7 +323,6 @@ class Display(tk.Frame):
 
         try:
             r_aqi = requests.get(aqi_req_url)
-            print(r_aqi)
             aqi_obj = r_aqi.json()
 
         except requests.exceptions.RequestException as e:
@@ -323,10 +330,11 @@ class Display(tk.Frame):
 
         aqi_cat = aqi_obj['list'][0]['main']['aqi']
         aqi_value_mapping = {1: "Good", 2: "Moderate", 3: "Unhealthy for Sensitive Groups", 4: "Unhealthy", 5: "Very Unhealthy", 6: "Hazardous"}  
-        self.aqi_var.set(aqi_value_mapping.get(aqi_cat, "Unknown"))
+        self.aqi_var.set("AQI: " + aqi_value_mapping.get(aqi_cat, "Unknown"))
 
-        # aqi_color_mapping = {1: "#00e400", 2: "#ffff00", 3: "#ff7e00", 4: "#ff0000", 5: "#8f3f97", 6: "126,0,35"}
-        # self.aqi_color.set(aqi_color_mapping.get(aqi_cat, "#808080"))
+        aqi_color_mapping = {1: "#00E400", 2: "#FFFF00", 3: "#FF7E00", 4: "#FF0000", 5: "#8F3F97", 6: "#7E0023"}
+        new_color = aqi_color_mapping.get(aqi_cat, "#808080")
+        self.canvas.itemconfig(self.circle, fill=new_color)
 
         self.after(900000, self.get_aqi, cfd)  # 900000ms = 15 minutes
 
