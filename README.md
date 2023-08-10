@@ -12,9 +12,11 @@ The smart mirror will display:
 - [DONE] Time of day
 - [DONE] Weather information
   - Temperature, feels like, high, low, and current weather icon
-  [DONE] Air Quality Information
-- [Done] WMATA next train information
+  - TODO: weather image
+- [DONE] Air Quality Information
+- [DONE] WMATA next train information
 - [ON HOLD] DASH next bus information
+  - Figure out GFTS feed
 
 **Data Sources**:
 - Weather: [Open Weather Map Api](https://openweathermap.org/api)
