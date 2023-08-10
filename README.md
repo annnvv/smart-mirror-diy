@@ -1,6 +1,6 @@
 # Smart Mirror DIY
 
-**Status**: In Progress
+**Status**: In Progress (Version 0 Complete, probably needs refactoring)
 
 **Inspiration**: This project is inspired by a DIY smart mirror [Youtube video](https://www.youtube.com/watch?v=fkVBAcvbrjU&list=WL&index=10&t=2s) and its corresponding [repo](https://github.com/HackerShackOfficial/Smart-Mirror).
 
@@ -10,9 +10,10 @@ The smart mirror will display:
 - [DONE] Greeting
 - [DONE] Day of Week, Date
 - [DONE] Time of day
-- [IN PROGRESS] Weather information
+- [DONE] Weather information
   - Temperature, feels like, high, low, and current weather icon
-- [IN PROGRESS] WMATA next train information
+  [DONE] Air Quality Information
+- [Done] WMATA next train information
 - [ON HOLD] DASH next bus information
 
 **Data Sources**:
