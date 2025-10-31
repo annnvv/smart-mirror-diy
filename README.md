@@ -12,6 +12,9 @@ The smart mirror will display:
 - [DONE] Time of day
 - [DONE] Weather information
   - Temperature, feels like, high, low, and current weather icon
+  - Humidity
+  - Wind
+  - Alerts
   - TODO: weather image
 - [DONE] Air Quality Information
 - [DONE] WMATA next train information
