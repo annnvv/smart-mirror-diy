@@ -60,7 +60,7 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        sun_lbl.pack(anchor = W, pady=(pad30,0), padx = (pad30, 0))
+        sun_lbl.pack(anchor = W, pady=(pad30,0), padx = (10, 0))
 
         self.dow_var = StringVar()
         dow_lbl = Label(
@@ -146,7 +146,36 @@ class Display(tk.Frame):
             bg=bg_color,
             fg=text_color,
         )
-        desc_lbl.pack(anchor = E, padx = (0, pad30))
+        desc_lbl.pack(anchor = E, padx = (0, pad30), pady=(10, 0))
+
+        self.humidity_var = StringVar()
+        humidity_lbl = Label(
+            frame3,
+            textvariable=self.humidity_var,
+            font=fontStyleSmall,
+            bg=bg_color,
+            fg=text_color,
+        )
+        humidity_lbl.pack(anchor = E, padx = (0, pad30), pady = (0, 10))
+
+        self.wind_speed_var = StringVar()
+        wind_speed_lbl = Label(
+            frame3,
+            textvariable=self.wind_speed_var,
+            font=fontStyleSmall,
+            bg=bg_color,
+            fg=text_color,
+        )
+        wind_speed_lbl.pack(anchor = E, padx = (0, pad30))
+        self.wind_gust_var = StringVar()
+        wind_gust_lbl = Label(
+            frame3,
+            textvariable=self.wind_gust_var,
+            font=fontStyleSmall,
+            bg=bg_color,
+            fg=text_color,
+        )
+        wind_gust_lbl.pack(anchor = E, padx = (0, pad30))
 
         # ##TODO: (HIGH priority)need to implement a .remove method for the label so that each image doesn't get stacked on top
         self.img_path_var = StringVar()
@@ -300,6 +329,15 @@ class Display(tk.Frame):
             + degree_sign
         )
 
+        self.humidity_var.set("Humidity: " + str(weather_obj["main"]["humidity"]) + "%")
+
+
+        self.wind_speed_var.set(
+            "Wind: " + str(weather_obj["wind"]["speed"]) + " mph")
+        if "gust"  in weather_obj["wind"]:
+            self.wind_gust_var.set(
+                "Gusts: " + str((weather_obj["wind"]["gust"]) + " mph"))
+
         self.weather_desc_var.set(weather_obj["weather"][0]["main"])
 
         self.img_path_var.set(
@@ -329,7 +367,7 @@ class Display(tk.Frame):
             print("Raise error:", e)
 
         aqi_cat = aqi_obj['list'][0]['main']['aqi']
-        aqi_value_mapping = {1: "Good", 2: "Moderate", 3: "Unhealthy for Sensitive Groups", 4: "Unhealthy", 5: "Very Unhealthy", 6: "Hazardous"}  
+        aqi_value_mapping = {1: "Good", 2: "Moderate", 3: "Unhealthy for Sensitive Groups", 4: "Unhealthy", 5: "Very Unhealthy", 6: "Hazardous"}
         self.aqi_var.set("AQI: " + aqi_value_mapping.get(aqi_cat, "Unknown"))
 
         aqi_color_mapping = {1: "#00E400", 2: "#FFFF00", 3: "#FF7E00", 4: "#FF0000", 5: "#8F3F97", 6: "#7E0023"}
