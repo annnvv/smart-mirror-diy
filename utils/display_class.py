@@ -209,61 +209,6 @@ class Display(tk.Frame):
         self.update_thread.daemon = True
         self.update_thread.start()
 
-
-        ## Metro (Bottom Left)
-        style = Style()
-        style.theme_use("classic")
-        style.configure(
-            "Treeview",
-            anchor = NW,
-            background=bg_color,
-            fieldbackground=bg_color,
-            foreground=text_color,
-            rowheight=40,
-            font=fontStyleSmall,
-            borderwidth=0,
-            highlightthickness=0,
-            relief="flat",
-        )
-        style.layout("Treeview", [("Treeview.field", {"border": "0"})])
-        style.map("Treeview")
-
-        style.configure(
-            "Treeview.Heading",
-            font=fontStyleMedium,
-            anchor=W,
-            background=bg_color,
-            foreground=text_color,
-            fieldbackground=bg_color,
-            borderwidth=0,
-            highlightthickness=0,
-            relief="flat",
-        )
-        style.map("Treeview.Heading")
-
-        self.tree = Treeview(frame7, columns=("Line", "Destination",  "Min"), show="headings")
-
-        self.tree.column("Line", width=80, anchor=W)
-        self.tree.column("Destination", width=300, anchor=W)
-        self.tree.column("Min", width=80, anchor=W)
-
-        self.tree.heading("Line", text="Line", anchor=W)
-        self.tree.heading("Destination", text="Destination", anchor=W)
-        self.tree.heading("Min", text="Min", anchor=W)
-
-        self.tree.pack(fill = BOTH, expand = True, padx = (pad30, 0))
-
-        self.train_info = ""
-        if self.train_info:
-            for row in self.train_info:
-                 self.treetree.insert("", END, values=row)
-
-        self.tree.pack(anchor=SW)
-
-        self.update_thread = Thread(target=self.get_train_info(cfd))
-        self.update_thread.daemon = True
-        self.update_thread.start()
-
     def get_date_time(self):
         self.dow_var.set(datetime.today().strftime("%A"))
         self.date_var.set(datetime.today().strftime("%B %d, %Y"))
@@ -375,36 +320,6 @@ class Display(tk.Frame):
         self.canvas.itemconfig(self.circle, fill=new_color)
 
         self.after(900000, self.get_aqi, cfd)  # 900000ms = 15 minutes
-
-    def get_train_info(self, config):
-        wmata_req_url = str(
-            f"https://api.wmata.com/StationPrediction.svc/json/GetPrediction/{config._wmata_station_code}"
-        )
-        headers = {
-            "api_key": config._wmata_api_key,
-        }
-
-        ## Make GET request (only when metro station is open)
-        # ##TODO2: (medium priority) limit requests only during when the train is running (note to self: this might be more appropriate in the display/GUI than here)
-        try:
-            r_wmata = requests.get(wmata_req_url, params=headers)
-            train_obj = r_wmata.json()
-
-        except requests.exceptions.RequestException as e:
-            print("Error:", e)
-
-        # Clear previous data in the table
-        self.tree.delete(*self.tree.get_children())
-
-        ## Parse data from request
-        for entry in train_obj["Trains"]:
-            line = entry["Line"]
-            destination = entry["DestinationName"]
-            arrival_time = entry["Min"]
-            self.tree.insert("", "end", values=(line, destination,  arrival_time))
-
-        self.after(300000, self.get_train_info, cfd)  # 300000ms = 5 minutes
-
 
 if __name__ == "__main__":
     root = tk.Tk()
